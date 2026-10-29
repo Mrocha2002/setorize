@@ -36,7 +36,7 @@ export default function AvisoFormScreen({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
         <Campo rotulo="Título *" value={form.titulo} onChangeText={(v) => alterar('titulo', v)} placeholder="Ex.: Inventário na sexta" maxLength={AVISO_TITULO_MAX} erro={erros.titulo} />
         <Campo rotulo="Mensagem *" value={form.mensagem} onChangeText={(v) => alterar('mensagem', v)} placeholder="Escreva o aviso" maxLength={AVISO_MENSAGEM_MAX} multiline erro={erros.mensagem} />

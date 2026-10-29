@@ -110,7 +110,7 @@ export default function CardDetalheScreen({ navigation, route }) {
   const atrasado = estaAtrasado(card);
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
         <View style={[styles.cabecalho, { borderLeftColor: coresPrioridade[card.prioridade] }]}>
           <Text style={styles.titulo}>{card.titulo}</Text>

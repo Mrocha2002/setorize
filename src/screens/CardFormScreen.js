@@ -7,11 +7,12 @@ import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, S
 import { useApp } from '../context/AppContext';
 import { ErroValidacao } from '../controllers/erros';
 import Campo from '../components/Campo';
+import CampoDataHora from '../components/CampoDataHora';
 import Botao from '../components/Botao';
 import GrupoOpcoes from '../components/GrupoOpcoes';
 import SeletorDestino from '../components/SeletorDestino';
 import { DESCRICAO_MAX, PRIORIDADES, ROTULO_PRIORIDADE, TITULO_MAX } from '../models/Card';
-import { mascararData, paraBR } from '../utils/datas';
+import { paraBR } from '../utils/datas';
 import { cores, coresPrioridade, espaco } from '../theme/tema';
 
 export default function CardFormScreen({ navigation, route }) {
@@ -82,7 +83,7 @@ export default function CardFormScreen({ navigation, route }) {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
         <Campo rotulo="Título *" value={form.titulo} onChangeText={(v) => alterar('titulo', v)} placeholder="Ex.: Cotar papel A4" maxLength={TITULO_MAX} erro={erros.titulo} />
         <Campo rotulo="Descrição" value={form.descricao} onChangeText={(v) => alterar('descricao', v)} placeholder="Detalhes (opcional)" maxLength={DESCRICAO_MAX} multiline erro={erros.descricao} />
@@ -105,13 +106,13 @@ export default function CardFormScreen({ navigation, route }) {
           aoSelecionar={(v) => alterar('prioridade', v)}
         />
 
-        <Campo
+        <CampoDataHora
           rotulo="Prazo"
-          value={form.prazo}
-          onChangeText={(v) => alterar('prazo', mascararData(v))}
-          placeholder="dd/mm/aaaa (opcional)"
-          keyboardType="number-pad"
-          maxLength={10}
+          modo="date"
+          valor={form.prazo}
+          aoMudar={(v) => alterar('prazo', v)}
+          placeholder="Sem prazo (opcional)"
+          permitirLimpar
           erro={erros.prazo}
         />
 

@@ -7,10 +7,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useApp } from '../context/AppContext';
 import { ErroConflito, ErroValidacao } from '../controllers/erros';
 import Campo from '../components/Campo';
+import CampoDataHora from '../components/CampoDataHora';
 import Botao from '../components/Botao';
 import GrupoOpcoes from '../components/GrupoOpcoes';
 import { HORA_ABERTURA, HORA_FECHAMENTO } from '../models/Reserva';
-import { hojeISO, mascararData, mascararHora, paraBR } from '../utils/datas';
+import { hojeISO, paraBR } from '../utils/datas';
 import { cores, espaco, raio } from '../theme/tema';
 
 export default function ReservaFormScreen({ navigation, route }) {
@@ -47,7 +48,7 @@ export default function ReservaFormScreen({ navigation, route }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
         <Campo rotulo="Assunto da reunião *" value={form.titulo} onChangeText={(v) => alterar('titulo', v)} placeholder="Ex.: Alinhamento semanal" maxLength={60} erro={erros.titulo} />
 
@@ -55,11 +56,11 @@ export default function ReservaFormScreen({ navigation, route }) {
         <GrupoOpcoes opcoes={salas.map((s) => ({ valor: s.id, rotulo: `${s.nome} (${s.capacidade})` }))} selecionado={form.salaId} aoSelecionar={(v) => alterar('salaId', v)} />
         {erros.salaId ? <Text style={styles.erro}>{erros.salaId}</Text> : null}
 
-        <Campo rotulo="Data *" value={form.data} onChangeText={(v) => alterar('data', mascararData(v))} placeholder="dd/mm/aaaa" keyboardType="number-pad" maxLength={10} erro={erros.data} />
+        <CampoDataHora rotulo="Data *" modo="date" valor={form.data} aoMudar={(v) => alterar('data', v)} placeholder="Escolha o dia" minimo={new Date()} erro={erros.data} />
 
         <View style={styles.linha}>
-          <Campo style={styles.metade} rotulo="Início *" value={form.inicio} onChangeText={(v) => alterar('inicio', mascararHora(v))} placeholder="hh:mm" keyboardType="number-pad" maxLength={5} erro={erros.inicio} />
-          <Campo style={styles.metade} rotulo="Término *" value={form.fim} onChangeText={(v) => alterar('fim', mascararHora(v))} placeholder="hh:mm" keyboardType="number-pad" maxLength={5} erro={erros.fim} />
+          <CampoDataHora style={styles.metade} rotulo="Início *" modo="time" valor={form.inicio} aoMudar={(v) => alterar('inicio', v)} placeholder="--:--" erro={erros.inicio} />
+          <CampoDataHora style={styles.metade} rotulo="Término *" modo="time" valor={form.fim} aoMudar={(v) => alterar('fim', v)} placeholder="--:--" erro={erros.fim} />
         </View>
         <Text style={styles.ajuda}>
           Salas disponíveis das {HORA_ABERTURA} às {HORA_FECHAMENTO}.

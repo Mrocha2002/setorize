@@ -22,6 +22,12 @@ async function entrar(email) {
 
 let srv;
 
+/** Simula tocar no campo de hora e escolher o horário no relógio do celular. */
+async function escolherHora(campo, h, m) {
+  global.__seletorValor = new Date(2026, 0, 1, h, m);
+  await fireEvent.press(screen.getByLabelText(`Escolher ${campo}`));
+}
+
 /**
  * Sai pela tela de Perfil. Se o teste estiver numa tela empilhada (ex.: detalhe da tarefa),
  * onde o botão de voltar nativo não existe no ambiente de teste, encerra a sessão pelo servidor,
@@ -129,18 +135,16 @@ test('tarefa e aviso direcionados ao setor', async () => {
   await fireEvent.press(await screen.findByLabelText('Reservar sala'));
   await fireEvent.changeText(await screen.findByPlaceholderText('Ex.: Alinhamento semanal'), 'Alinhamento');
   await fireEvent.press(await screen.findByText('Sala Azul (8)'));
-  let [inicio, fim] = screen.getAllByPlaceholderText('hh:mm');
-  await fireEvent.changeText(inicio, '0700');
-  await fireEvent.changeText(fim, '0800');
+  await escolherHora('início', 7, 0);
+  await escolherHora('término', 8, 0);
   await fireEvent.press(screen.getByText('Confirmar reserva'));
   expect(await screen.findByText('Alinhamento')).toBeOnTheScreen();
 
   await fireEvent.press(screen.getByLabelText('Reservar sala'));
   await fireEvent.changeText(await screen.findByPlaceholderText('Ex.: Alinhamento semanal'), 'Choque');
   await fireEvent.press(await screen.findByText('Sala Azul (8)'));
-  [inicio, fim] = screen.getAllByPlaceholderText('hh:mm');
-  await fireEvent.changeText(inicio, '0730');
-  await fireEvent.changeText(fim, '0830');
+  await escolherHora('início', 7, 30);
+  await escolherHora('término', 8, 30);
   await fireEvent.press(screen.getByText('Confirmar reserva'));
   expect(await screen.findByText(/Sala Azul já está reservada das 07:00 às 08:00 por Ana Souza/)).toBeOnTheScreen();
   await act(() => srv.repos.auth.sair());

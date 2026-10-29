@@ -167,3 +167,36 @@ export function quandoFoi(timestamp, hoje = hojeISO()) {
   const hora = horaLocalDeTimestamp(timestamp);
   return `${dia === hoje ? 'Hoje' : dataCurta(dia)} às ${hora}`;
 }
+
+// ---------------- Calendário e relógio do celular ----------------
+// O seletor nativo trabalha com objetos Date; o resto do app usa texto ("dd/mm/aaaa" e "hh:mm").
+
+/** Date -> "dd/mm/aaaa" */
+export function dateParaBR(data) {
+  return `${doisDigitos(data.getDate())}/${doisDigitos(data.getMonth() + 1)}/${data.getFullYear()}`;
+}
+
+/** Date -> "hh:mm" */
+export function dateParaHora(data) {
+  return `${doisDigitos(data.getHours())}:${doisDigitos(data.getMinutes())}`;
+}
+
+/** "dd/mm/aaaa" -> Date (meia-noite). Se o texto estiver vazio ou inválido, usa hoje. */
+export function brParaDate(dataBR, agora = new Date()) {
+  const iso = paraISO(dataBR);
+  if (!iso) return new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+  const [ano, mes, dia] = iso.split('-').map(Number);
+  return new Date(ano, mes - 1, dia);
+}
+
+/** "hh:mm" -> Date de hoje nesse horário. Se vazio ou inválido, usa a próxima hora cheia. */
+export function horaParaDate(hora, agora = new Date()) {
+  const d = new Date(agora);
+  if (horaValida(hora)) {
+    const [h, m] = hora.split(':').map(Number);
+    d.setHours(h, m, 0, 0);
+  } else {
+    d.setHours(agora.getHours() + 1, 0, 0, 0);
+  }
+  return d;
+}
