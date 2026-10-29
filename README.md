@@ -87,7 +87,7 @@ APK opcional: `npx eas-cli@latest build -p android --profile preview`, com `"bui
 ## 4. Alterações, testes e validações
 
 ```bash
-npm test            # 57 testes do app (Jest)
+npm test            # 59 testes do app (Jest)
 npm run test:banco  # 51 testes do banco num PostgreSQL real (PGlite)
 npm run test:tudo   # os dois
 npx expo lint
@@ -97,6 +97,7 @@ npx expo lint
 |---|---|
 | `supabase/testes/rls.test.mjs` | **Regras do banco:** cadastro sempre como colaborador; **gestor por setor** (vê e gerencia só o próprio setor e o que criou); **admin** (vê tudo; só ele muda papel/setor/cargo; ninguém vira admin pelo app); colaborador não muda o próprio papel ou setor; tarefa de setor só aparece para o setor, de pessoa só para ela; colaborador não cria, não edita título, não repassa a tarefa; assume e move; histórico automático; comentários; avisos por destino; leituras; "lido por X de Y"; conflito de sala (código 23P01); horário, duração e data passada; cancelamento |
 | `__tests__/Card`, `AvisoUsuario`, `Reserva`, `Metricas`, `datas` | Validações, filtros do Kanban, cálculo do painel, datas UTC → horário local |
+| `__tests__/CampoDataHora.test.js` | Calendário e relógio do celular devolvem a data e a hora no formato do app; botão Limpar |
 | `__tests__/erros.test.js` | Erros do servidor viram mensagens em português |
 | `__tests__/appReducer.test.js` | Flux: filtro por papel, sair apaga os dados, selos de pendência |
 | `__tests__/controllers.test.js` | Controllers + servidor falso com as mesmas regras |
