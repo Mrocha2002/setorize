@@ -44,7 +44,7 @@ export default function CadastroScreen({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
         <Campo rotulo="Nome completo *" value={form.nome} onChangeText={(v) => alterar('nome', v)} placeholder="Ex.: Carla Mendes" erro={erros.nome} maxLength={80} />
         <Campo

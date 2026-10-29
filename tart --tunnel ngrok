@@ -1,0 +1,13 @@
+[1mdiff --git a/src/screens/CadastroScreen.js b/src/screens/CadastroScreen.js[m
+[1mindex d321834..f79471b 100644[m
+[1m--- a/src/screens/CadastroScreen.js[m
+[1m+++ b/src/screens/CadastroScreen.js[m
+[36m@@ -44,7 +44,7 @@[m [mexport default function CadastroScreen({ navigation }) {[m
+   };[m
+ [m
+   return ([m
+[31m-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>[m
+[32m+[m[32m    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>[m
+       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">[m
+         <Campo rotulo="Nome completo *" value={form.nome} onChangeText={(v) => alterar('nome', v)} placeholder="Ex.: Carla Mendes" erro={erros.nome} maxLength={80} />[m
+         <Campo[m
